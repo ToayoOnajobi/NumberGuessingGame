@@ -13,13 +13,20 @@ public class Main{
         String yes = "y";
         String no = "n";
 
-         while(!option.equals("Y") && !option.equals("N")){
+         while(!option.equals("y") && !option.equals("n")){
                 
                 System.out.println("Please enter a valid option");
                 option = scanner.nextLine();
             
          }
 
+         if(option.equals(yes))
+         {
+            Game game = new Game();
+            game.startGame();
+         }
+        
+         System.out.println("Bye!");
 
          scanner.close();
     }
