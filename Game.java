@@ -5,6 +5,8 @@ import java.util.Scanner;
 import java.util.Vector;
 
 public class Game {
+
+    
     public static void main(String[] args) {
 
          
@@ -20,12 +22,14 @@ public class Game {
 
     public int updateRoundNum(){
 
+
         return ++roundNum;
 
     }
 
 
     public void startGame(){
+
         boolean isGameOver = false;
         for(int i = 0; i < 40; i++){
             System.out.print("=");
@@ -33,13 +37,30 @@ public class Game {
         System.out.print("\n");
         System.out.println("Round " + getRoundNum() + "!\n");
         System.out.println("Starting Game!");
+       
         int answer = getRandomNumber();
+        
+      
        
         Scanner userAns = new Scanner(System.in);
 
         Vector<Integer> guesses = new Vector<>();
         while(!isGameOver){
-            
+        
+
+
+            //for when the user runs out of lives
+            if(lives == 0){
+                System.out.println("The answer was " + answer + ".");
+                System.out.println("You had guessed the following:\n");
+                for(int i = 0; i < guesses.size(); i++){
+                    System.out.print(guesses.elementAt(i) + ",");
+                }
+
+                System.out.println("\nGame Over!");
+                break;
+            }
+
             //if the user wants a hint
             if(lives == 1)
             {
@@ -74,6 +95,7 @@ public class Game {
                     }
 
                     System.out.println("printing list");
+                    //-1 so that we don't give away the number, we just want a select few 
                     for(int j = 0; j < factorList.size() - 1; j++){
                         System.out.println(factorList.get(j));
                     }
@@ -90,17 +112,6 @@ public class Game {
            
            // System.out.println("The number is between: ");
 
-            //for when the user runs out of lives
-            if(lives == 0){
-                System.out.println("The answer was " + answer + ".");
-                System.out.println("You had guessed the following:\n");
-                for(int i = 0; i < guesses.size(); i++){
-                    System.out.print(guesses.elementAt(i) + ",");
-                }
-
-                System.out.println("\nGame Over!");
-                return;
-            }
 
             System.out.println("Please guess a number between 0-50");
             int userAnswer = userAns.nextInt();
@@ -108,38 +119,43 @@ public class Game {
             boolean isCorrect = checkAnswer(userAnswer, answer);
             if(isCorrect){
                 System.out.println("Correct! Congrats, you win! You had " + lives + " remaining.");
-                System.out.println("Would you like to play again?");
+                break;
                 
-                //check for the userInput 
-                Scanner playAgain = new Scanner(System.in);
-                String option = playAgain.nextLine();
-                if(option.equals(option)){
-                    updateRoundNum();
-                    guesses.clear();
-                   // startGame();
-                }
-                else
-                {
-                    isGameOver = true;
-                }
 
               //  playAgain.close();
                 
                 
             }     
             
-        }    
+        }
+        System.out.println("Would you like to play again?");
+                
+                //check for the userInput 
+                Scanner playAgain = new Scanner(System.in);
+                String option = playAgain.nextLine();
+                if(option.equalsIgnoreCase("y") || option.equalsIgnoreCase("yes")){
+                    updateRoundNum();
+                    guesses.clear();
+                    startGame();
+                }
+                else {
+                    isGameOver = true;
+                
+                
+                }  
+                playAgain.close();  
        // userAns.close();  
     
                 
     }
 
+    static Random generateRandom = new Random();
     static int getRandomNumber(){
 
-        Random generateRandom = new Random();
-        int random = generateRandom.nextInt(51);
+       
+       
 
-        return random;
+        return generateRandom.nextInt(51);
     }
 
     static boolean checkAnswer(int userA, int correctAns) {
