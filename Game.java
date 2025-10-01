@@ -1,3 +1,5 @@
+
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -18,7 +20,7 @@ public class Game {
 
     public int updateRoundNum(){
 
-        return roundNum++;
+        return ++roundNum;
 
     }
 
@@ -61,10 +63,23 @@ public class Game {
                     }
                     else{
                         System.out.println("This is not a prime number.\n");
+
+                    }
+                    System.out.println("It has the factors: ");
+                    ArrayList<Integer> factorList = new ArrayList<>();
+                    for(int i = 1; i <= answer; i++){
+                        if(answer % i == 0){
+                            factorList.add(i);
+                        }
+                    }
+
+                    System.out.println("printing list");
+                    for(int j = 0; j < factorList.size() - 1; j++){
+                        System.out.println(factorList.get(j));
                     }
                 }
 
-                 System.out.println("It is between: ");
+         
 
 
                 //hintScanner.close();
@@ -83,8 +98,8 @@ public class Game {
                     System.out.print(guesses.elementAt(i) + ",");
                 }
 
-                System.out.println("Game Over!");
-                break;
+                System.out.println("\nGame Over!");
+                return;
             }
 
             System.out.println("Please guess a number between 0-50");
@@ -100,20 +115,21 @@ public class Game {
                 String option = playAgain.nextLine();
                 if(option.equals(option)){
                     updateRoundNum();
-                    startGame();
+                    guesses.clear();
+                   // startGame();
                 }
                 else
                 {
                     isGameOver = true;
                 }
 
-                playAgain.close();
+              //  playAgain.close();
                 
                 
             }     
             
         }    
-        userAns.close();  
+       // userAns.close();  
     
                 
     }
@@ -141,7 +157,6 @@ public class Game {
 
     public String giveHint()
     {
-
         return "This number is prime number";
 
     }
