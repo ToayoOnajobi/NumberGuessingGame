@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class main{
+public class Main{
     //output Hello Wold to the console
     public static void main(String[] args) {
          System.out.println("Welcome to the number guessing game!\n");

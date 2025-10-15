@@ -15,6 +15,7 @@ public class Game {
 
     private static int lives = 3;
     private int roundNum = 1;
+    public static int playerScore = 0;
 
     public int getRoundNum(){
         return roundNum;
@@ -46,9 +47,6 @@ public class Game {
 
         Vector<Integer> guesses = new Vector<>();
         while(!isGameOver){
-        
-
-
             //for when the user runs out of lives
             if(lives == 0){
                 System.out.println("The answer was " + answer + ".");
@@ -67,7 +65,7 @@ public class Game {
                 System.out.println("Would you like a hint?\n");
                 Scanner hintScanner = new Scanner(System.in);
                 String hintOption = hintScanner.nextLine();
-                hintOption.toLowerCase();
+                hintOption = hintOption.toLowerCase();
                     
                 while(!hintOption.equals("y") && !hintOption.equals("n")){
                     
@@ -77,7 +75,7 @@ public class Game {
                 }
                 
                 if(hintOption.equals("y")){
-                    System.out.println("Entered");
+                    //System.out.println("Entered"); Debug statement 
                      if(isPrime(answer)){
                         System.out.println("This number is a prime number\n");
                        
@@ -93,41 +91,35 @@ public class Game {
                             factorList.add(i);
                         }
                     }
-
-                    System.out.println("printing list");
+                    //System.out.println("printing list");
                     //-1 so that we don't give away the number, we just want a select few 
                     for(int j = 0; j < factorList.size() - 1; j++){
                         System.out.println(factorList.get(j));
                     }
                 }
-
-         
-
-
                 //hintScanner.close();
-
-               
-            
-            }
-           
-           // System.out.println("The number is between: ");
-
+            }          
 
             System.out.println("Please guess a number between 0-50");
             int userAnswer = userAns.nextInt();
             guesses.add(userAnswer);
             boolean isCorrect = checkAnswer(userAnswer, answer);
             if(isCorrect){
-                System.out.println("Correct! Congrats, you win! You had " + lives + " remaining.");
+                updatePlayerScore();
+                System.out.println("Correct! Congrats, you win! You had " + lives + " lives remaining.");
                 break;
-                
-
               //  playAgain.close();
-                
-                
+
             }     
             
         }
+
+        if(lives == 0){
+                System.out.println("Your total score is: " + revealPlayerScore());
+                System.out.println("You no longer have any remaining lives... Quitting game...");
+                return; 
+        
+            }
         System.out.println("Would you like to play again?");
                 
                 //check for the userInput 
@@ -136,25 +128,22 @@ public class Game {
                 if(option.equalsIgnoreCase("y") || option.equalsIgnoreCase("yes")){
                     updateRoundNum();
                     guesses.clear();
+                    //playAgain.close();
                     startGame();
                 }
+             
                 else {
-                    isGameOver = true;
-                
-                
+                    return;         
                 }  
-                playAgain.close();  
-       // userAns.close();  
+                //playAgain.close();  
+       userAns.close();  
     
                 
     }
 
+
     static Random generateRandom = new Random();
     static int getRandomNumber(){
-
-       
-       
-
         return generateRandom.nextInt(51);
     }
 
@@ -192,6 +181,14 @@ public class Game {
         }
 
         return true;
+    }
+
+    public void updatePlayerScore(){
+       ++playerScore;
+    }
+
+    public int revealPlayerScore(){
+        return playerScore;
     }
    
 
